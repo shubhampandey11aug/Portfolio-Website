@@ -70,8 +70,8 @@ const CONFIG = {
     ["Based in", "Gurgaon"]
   ],
   experience: [
-    { when: "Sep 2025 to now", what: "Assistant Manager, Analytics (Energy & Market Operations)", where: "Gentari India, Gurgaon" },
-    { when: "Nov 2019 to Aug 2025", what: "Deputy Manager, Energy Analytics & Trading", where: "Kreate Energy, New Delhi" }
+    { when: "Sep 2025 to now", what: "Analytics (Energy & Market Operations)", where: "Gentari India, Gurgaon" },
+    { when: "Nov 2019 to Aug 2025", what: "Energy Analytics,Forecasting & Trading", where: "Kreate Energy, New Delhi" }
   ],
   certifications: [],                      // empty = the Certifications block is hidden. Format: { name: "...", status: "In progress" },
 
