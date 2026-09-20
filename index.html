@@ -24,7 +24,7 @@
   --pill-bg:#FFF1CC; --pill-fg:#7A5200; --bad-bg:#FDECEA; --bad-fg:#8A1F11; --ok-bg:#E3F3EC; --ok-fg:#0B5D3B;
   --mono-a:#E4ECEB; --mono-b:#DCE6E5; --tick-bg:rgba(255,255,255,.65);
   --glow-a:rgba(15,107,115,.10); --glow-b:rgba(240,162,2,.10);
-  --bg-dot:rgba(15,107,115,.13); --bg-line:rgba(15,107,115,.12); --bg-pk1:rgba(15,107,115,.60); --bg-pk2:rgba(217,142,0,.75);
+  --grid:rgba(15,107,115,.06);
   --sans:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
 }
@@ -38,7 +38,7 @@
   --pill-bg:#3A2E0C; --pill-fg:#F5D27A; --bad-bg:#3B1E1B; --bad-fg:#FFB4A8; --ok-bg:#17352A; --ok-fg:#8EE0B7;
   --mono-a:#1B2C35; --mono-b:#172830; --tick-bg:rgba(21,37,45,.6);
   --glow-a:rgba(28,150,165,.16); --glow-b:rgba(242,178,51,.08);
-  --bg-dot:rgba(120,205,215,.14); --bg-line:rgba(120,205,215,.14); --bg-pk1:rgba(92,200,208,.80); --bg-pk2:rgba(242,178,51,.85);
+  --grid:rgba(120,205,215,.06);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
@@ -77,39 +77,80 @@ a{color:var(--teal)}
 .portrait img{width:100%;height:100%;object-fit:cover}
 .portrait .mono{width:100%;height:100%;display:grid;place-items:center;font-size:5rem;font-weight:700;color:var(--teal);background:repeating-linear-gradient(135deg,var(--mono-a) 0 12px,var(--mono-b) 12px 24px)}
 .portrait figcaption{font-size:.88rem;color:var(--slate);margin-top:8px}
-.pipe{margin:44px 0 0;padding-top:24px;border-top:1px solid var(--mist)}
-.pipe-row{display:flex;align-items:center}
-.pnode{flex:0 0 auto;font:600 .95rem var(--sans);padding:10px 16px;border:1.5px solid var(--mist);background:var(--surface);color:var(--slate);border-radius:4px;text-align:center;line-height:1.25}
-.pnode small{display:block;font-weight:500;font-size:.76rem;color:var(--slate)}
-button.pnode{cursor:pointer}
-button.pnode:hover{color:var(--ink)}
-button.pnode.bronze{border-color:var(--bronze)}
-button.pnode.silver{border-color:var(--silver)}
-button.pnode.gold{border-color:var(--gold)}
-button.pnode[aria-pressed="true"]{color:var(--ink);border-width:2.5px;padding:9px 15px}
-button.pnode.bronze[aria-pressed="true"]{background:var(--bronze-bg)}
-button.pnode.silver[aria-pressed="true"]{background:var(--silver-bg)}
-button.pnode.gold[aria-pressed="true"]{background:var(--gold-bg)}
-.plink{flex:1 1 20px;min-width:14px;height:8px;position:relative;overflow:hidden}
-.plink::before{content:"";position:absolute;left:0;right:0;top:3px;height:2px;background:var(--mist)}
-.plink::after{content:"";position:absolute;top:1px;left:-6px;width:6px;height:6px;border-radius:50%;background:var(--teal)}
-@media (prefers-reduced-motion:no-preference){.plink::after{animation:pkt 2.2s linear infinite}.plink:nth-of-type(2)::after{animation-delay:.5s}.plink:nth-of-type(3)::after{animation-delay:1s}.plink:nth-of-type(4)::after{animation-delay:1.5s}}
-@keyframes pkt{from{left:-6px}to{left:100%}}
-.ppanel{margin-top:18px;background:var(--surface);border:1px solid var(--mist);border-radius:4px;padding:20px}
-.ppanel h3{margin:0 0 4px;font-size:1.08rem;letter-spacing:-.01em}
-.ppanel .why{margin:0 0 14px;color:var(--ink3);font-size:.97rem;max-width:64ch}
-.tbl-wrap{overflow-x:auto}
-.tbl-wrap+.tbl-wrap{margin-top:16px}
-table.dt{border-collapse:collapse;width:100%;min-width:540px;font:500 .86rem ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-.dt caption{caption-side:top;text-align:left;font:600 .8rem var(--sans);color:var(--slate);padding:0 0 6px}
-.dt th{text-align:left;font:600 .76rem var(--sans);color:var(--slate);padding:6px 12px;border-bottom:1.5px solid var(--mist)}
-.dt td{padding:6px 12px;border-bottom:1px solid var(--paper);white-space:nowrap}
-.dt td.bad{background:var(--bad-bg);color:var(--bad-fg)}
-.dt td.fix{background:var(--ok-bg);color:var(--ok-fg)}
-.dt td.note{font-family:var(--sans);color:var(--slate);font-size:.82rem}
-.ppanel .tally{margin:14px 0 0;font-weight:600}
-.pipe figcaption{font-size:.86rem;color:var(--slate);max-width:72ch;margin-top:10px}
-@media (max-width:700px){.pnode.static,.plink.edge{display:none}}
+.plat{margin:44px 0 0;border-radius:10px;background:linear-gradient(160deg,#0A1920 0%,#0E2A33 100%);border:1px solid #1E3843;color:#E6EEF0;box-shadow:0 24px 60px -28px rgba(6,28,38,.55);overflow:hidden}
+.plat-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between;padding:18px 22px 4px}
+.plat-title{font-weight:700;font-size:1.1rem;letter-spacing:-.01em}
+.plat-title small{display:block;font-weight:500;color:#8FA7B0;font-size:.85rem;margin-top:2px}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;color:#8FA7B0}
+.live i{width:8px;height:8px;border-radius:50%;background:#3DDC97;animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(61,220,151,.55)}70%{box-shadow:0 0 0 8px rgba(61,220,151,0)}100%{box-shadow:0 0 0 0 rgba(61,220,151,0)}}
+.plat-tabs{display:flex;flex-wrap:wrap;gap:8px;padding:14px 22px 6px}
+.tab{font:600 .9rem var(--sans);color:#B7C8CE;background:#11252E;border:1px solid #24404B;border-radius:99px;padding:7px 15px;cursor:pointer}
+.tab:hover{border-color:#5CC8D0;color:#fff}
+.tab[aria-pressed="true"]{background:#5CC8D0;border-color:#5CC8D0;color:#06222A}
+.arch{overflow-x:auto;padding:4px 14px 0}
+.arch svg{display:block;width:100%;min-width:880px;height:auto}
+.arch .col{fill:#6F8C97;font:600 11px var(--sans)}
+.arch .edge{fill:none;stroke:#22404B;stroke-width:1.5;transition:stroke .3s}
+.arch .edge.on{stroke:#5CC8D0;stroke-width:2;stroke-dasharray:5 7;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-12}}
+.arch .node{transition:opacity .35s}
+.arch .node rect.box{fill:#11252E;stroke:#24404B;stroke-width:1.5;transition:fill .3s,stroke .3s}
+.arch .node .t{fill:#E6EEF0;font:600 13px var(--sans)}
+.arch .node .s{fill:#8FA7B0;font:500 11px var(--sans)}
+.arch .node.dim{opacity:.3}
+.arch .node.on rect.box{fill:#143039;stroke:#5CC8D0}
+.arch .node.on{filter:drop-shadow(0 0 7px rgba(92,200,208,.35))}
+.plat-body{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:32px;margin:8px 0 0;padding:22px 24px 8px;border-top:1px solid #1E3843}
+.steps h3{margin:0 0 12px;font-size:1.05rem;letter-spacing:-.01em}
+.steps ol{list-style:none;margin:0;padding:0;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;position:relative;padding-left:34px;color:#C9D7DB;font-size:.95rem;line-height:1.5}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:#143039;border:1px solid #2C5560;color:#8FDDE3;font:700 .75rem/20px var(--sans);text-align:center}
+.viz{min-width:0}
+.viz-h{font-size:.82rem;color:#8FA7B0;margin:0 0 10px}
+.kpis{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 10px}
+.kpis div{background:#11252E;border:1px solid #24404B;border-radius:6px;padding:8px 12px;min-width:104px}
+.kpis b{display:block;font-size:1.15rem;letter-spacing:-.01em}
+.kpis span{font-size:.76rem;color:#8FA7B0}
+.kpis .good{border-color:#2C7F88}
+.kpis .good b{color:#5CC8D0}
+.viz svg.chart{display:block;width:100%;height:auto}
+.chart .ax{fill:#7F98A2;font:500 10px var(--sans)}
+.chart .gl{stroke:#1C3541;stroke-width:1}
+.chart .draw{stroke-dasharray:1;stroke-dashoffset:0}
+@media (prefers-reduced-motion:no-preference){.chart .draw{animation:draw 1.6s ease-out both}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.lg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.78rem;color:#9DB2BA;margin:6px 0 0}
+.lg i{display:inline-block;width:18px;border-top:3px solid;vertical-align:middle;margin-right:6px}
+.rd{min-height:1.4em;font-size:.84rem;color:#C9D7DB;margin:6px 0 0;font-variant-numeric:tabular-nums}
+.bars{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:9px}
+.bars li{display:grid;grid-template-columns:52px 1fr 44px;gap:10px;align-items:center;font-size:.86rem;color:#C9D7DB}
+.bars .bt{height:10px;background:#11252E;border-radius:5px;overflow:hidden}
+.bars i{display:block;height:100%;width:var(--w);background:#5CC8D0;border-radius:5px}
+.bars li.flag i{background:#F2B233}
+.bars li.flag .bv{color:#F2B233;font-weight:700}
+@media (prefers-reduced-motion:no-preference){.bars i{width:0;animation:grow .9s ease-out .1s forwards}}
+@keyframes grow{to{width:var(--w)}}
+.callout{margin:0;padding:10px 12px;border-left:3px solid #F2B233;background:#1B2A2A;border-radius:0 6px 6px 0;font-size:.88rem;color:#E6EEF0}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.checks li{display:flex;align-items:center;gap:12px;background:#11252E;border:1px solid #24404B;border-radius:6px;padding:9px 12px;font-size:.9rem;color:#E6EEF0}
+.checks .ct{flex:1}
+.ck{flex:0 0 18px;height:18px;border-radius:50%;background:#1E5C45;position:relative}
+.ck::after{content:"";position:absolute;left:6px;top:3px;width:4px;height:8px;border:solid #8EE0B7;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ck.warn{background:#5C4514}
+.ck.warn::after{left:8px;top:4px;width:2px;height:7px;border:0;background:#F2B233;transform:none;box-shadow:0 9px 0 0 #F2B233;height:6px}
+.pill2{font-size:.76rem;font-weight:600;padding:2px 9px;border-radius:99px;background:#17352A;color:#8EE0B7;white-space:nowrap}
+.pill2.warn{background:#3A2E0C;color:#F5D27A}
+.chat{display:grid;gap:10px}
+.msg{padding:10px 14px;border-radius:10px;font-size:.92rem;line-height:1.5;max-width:92%}
+.msg.q{justify-self:end;background:#143039;border:1px solid #2C5560;color:#E6EEF0}
+.msg.a{background:#11252E;border:1px solid #24404B;color:#E6EEF0}
+.msg pre{margin:8px 0;padding:10px 12px;background:#0A171D;border:1px solid #1E3843;border-radius:6px;overflow-x:auto;font:500 .78rem/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#B7E4E8}
+.msg .src{display:inline-block;font-size:.76rem;color:#8FDDE3;background:#143039;border:1px solid #2C5560;border-radius:99px;padding:2px 10px}
+@media (prefers-reduced-motion:no-preference){.chat .msg{animation:rise .5s ease-out both}.chat .msg.a{animation-delay:.5s}}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.plat-cap{margin:0;padding:14px 24px 20px;font-size:.84rem;color:#8FA7B0;max-width:78ch}
+@media (max-width:860px){.plat-body{grid-template-columns:1fr;gap:20px}}
 
 /* sections */
 section.block{padding:72px 0;border-top:1px solid var(--mist)}
@@ -233,38 +274,33 @@ footer{padding:32px 0 56px;border-top:1px solid var(--mist);color:var(--slate);f
 :root[data-theme="dark"] .theme-btn .sun{display:block}
 :root[data-theme="dark"] .theme-btn .moon{display:none}
 
-/* page background: dot grid and data-pipeline traces */
-.bg-glow{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(60% 45% at 12% 0%,var(--glow-a),transparent 70%),radial-gradient(40% 35% at 92% 6%,var(--glow-b),transparent 70%)}
-#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+/* page background: soft glow and a fine blueprint grid behind the hero */
+body{position:relative}
+.bg-glow,.bg-grid{position:absolute;top:0;left:0;right:0;height:980px;pointer-events:none;z-index:-1}
+.bg-glow{background:radial-gradient(55% 45% at 8% 0%,var(--glow-a),transparent 72%),radial-gradient(45% 40% at 96% 2%,var(--glow-b),transparent 72%)}
+.bg-grid{background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px;
+  -webkit-mask-image:linear-gradient(#000 0%,#000 35%,transparent 100%);mask-image:linear-gradient(#000 0%,#000 35%,transparent 100%)}
 
-/* skills broadcast */
-.ticker{border-top:1px solid var(--mist);background:var(--tick-bg);padding:16px 0 20px}
-.tick-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
-.tick-title{font-weight:600;font-size:.86rem;color:var(--slate)}
-.tick-pause{font:600 .8rem var(--sans);color:var(--ink);background:transparent;border:1px solid var(--mist);border-radius:4px;padding:3px 10px;cursor:pointer}
-.tick-pause:hover{border-color:var(--teal)}
-.lane{display:flex;align-items:center;gap:14px;margin-top:8px}
-.lane-label{flex:0 0 52px;font-weight:600;font-size:.82rem;color:var(--slate)}
-.lane-view{flex:1;min-width:0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
-.track{display:flex;width:max-content;animation:tick var(--dur,50s) linear infinite}
-.lane.rev .track{animation-direction:reverse}
+/* skills broadcast: a single scrolling line */
+.ticker{border-top:1px solid var(--mist);background:var(--tick-bg);padding:14px 0}
+.tick-view{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.track{display:flex;width:max-content;animation:tick var(--dur,60s) linear infinite}
 .half{display:flex;gap:10px;padding-right:10px}
 .tk{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font:600 .95rem var(--sans);padding:7px 14px;border:1px solid var(--mist);background:var(--surface);border-radius:99px;color:var(--ink)}
 .tk::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal)}
-.lane.ai .tk::before{background:var(--sun)}
+.tk:nth-child(even)::before{background:var(--sun)}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.ticker:hover .track,.ticker:focus-within .track,.ticker.paused .track{animation-play-state:paused}
+.ticker:hover .track{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){
   .track{animation:none;width:auto;display:block}
-  .half{flex-wrap:wrap;row-gap:8px}
-  .half.dup,.tick-pause{display:none}
-  .lane-view{-webkit-mask-image:none;mask-image:none}
+  .half{flex-wrap:wrap;row-gap:8px;padding:0 24px}
+  .half.dup{display:none}
+  .tick-view{-webkit-mask-image:none;mask-image:none}
 }
 
 @media (max-width:860px){
   .theme-btn .tlabel{display:none}
   .theme-btn{padding:0 10px}
-  .lane-label{display:none}
   .hero-grid{grid-template-columns:1fr;gap:28px}
   .portrait{order:-1;max-width:180px}
   .about-grid,.case-body{grid-template-columns:1fr;gap:36px}
@@ -275,7 +311,7 @@ footer{padding:32px 0 56px;border-top:1px solid var(--mist);color:var(--slate);f
 </head>
 <body>
 <div class="bg-glow" aria-hidden="true"></div>
-<canvas id="bg" aria-hidden="true"></canvas>
+<div class="bg-grid" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 
 <nav class="nav" aria-label="Main">
@@ -315,19 +351,21 @@ footer{padding:32px 0 56px;border-top:1px solid var(--mist);color:var(--slate);f
         </figure>
       </div>
 
-      <figure class="pipe" id="pipe">
-        <div class="pipe-row" id="pipeRow"></div>
-        <div class="ppanel" id="pipePanel"></div>
-        <figcaption>A small sample of how one batch of solar-plant meter readings moves through a Bronze, Silver and Gold pipeline. Pick a layer to see the data at that step. Illustrative data; the same pattern runs through the case studies below.</figcaption>
+      <figure class="plat" id="plat">
+        <div class="plat-head">
+          <div class="plat-title">Renewable energy data and AI platform<small>From plant readings to decisions</small></div>
+          <span class="live"><i></i>Illustrative architecture, simulated data</span>
+        </div>
+        <div class="plat-tabs" id="platTabs" role="group" aria-label="Choose a scenario"></div>
+        <div class="arch" id="platArch"></div>
+        <div class="plat-body" id="platBody"></div>
+        <figcaption class="plat-cap">A reference architecture for renewable energy data and AI. Pick a scenario to follow the data from plant to decision. The numbers are simulated.</figcaption>
       </figure>
     </div>
   </header>
 
   <section class="ticker" id="ticker" aria-label="Data and AI skills" hidden>
-    <div class="wrap">
-      <div class="tick-head"><span class="tick-title" id="tickTitle"></span><button type="button" class="tick-pause" id="tickPause" aria-pressed="false">Pause</button></div>
-      <div id="tickLanes"></div>
-    </div>
+    <div class="tick-view"><div class="track" id="tickTrack"></div></div>
   </section>
 
   <section class="block" id="about"><div class="wrap">
@@ -391,6 +429,7 @@ footer{padding:32px 0 56px;border-top:1px solid var(--mist);color:var(--slate);f
 
 <script>window.addEventListener('error',function(e){if(e.filename&&/config\.js/.test(e.filename))window.__cfgErr='line '+e.lineno+': '+e.message;});</script>
 <script>document.write('<script src="config.js?v='+Date.now()+'"><\/script>');</script>
+<script>document.write('<script src="images.js?v='+Date.now()+'"><\/script>');</script>
 <script>
 if (typeof CONFIG === 'undefined') {
   document.body.insertAdjacentHTML('afterbegin',
@@ -406,8 +445,9 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 const initials = C.name.split(/\s+/).map(w => w[0]).join('').slice(0,2).toUpperCase();
 let activeSkill = null, activeCat = 'All';
 
-/* ---- image discovery: png, jpg, jpeg, webp in lower or upper case ---- */
-const EXT_WAVES = [['png','jpg','jpeg','webp'], ['PNG','JPG','JPEG','WEBP']];
+/* ---- image discovery ---- */
+const IMG_EXT = ['png','jpg','jpeg','webp','gif','avif'];
+const EXT_WAVES = [IMG_EXT, IMG_EXT.map(e => e.toUpperCase())];
 const probe = src => new Promise(res => { const i = new Image(); i.onload = () => res(src); i.onerror = () => res(null); i.src = src; });
 const imgCache = new Map();
 function findImage(base) {
@@ -420,11 +460,45 @@ function findImage(base) {
   })());
   return imgCache.get(base);
 }
-/* screenshots: images/<id>-1, -2, -3 ... any number; a gap of up to two numbers is tolerated */
+
+/* Optional list of your image files, written by update-images.bat into images.js.
+   With it, file names are matched loosely: any case, spaces or underscores, the project id or its
+   full title, a doubled extension such as .png.png, and any extension. */
+const FILES = (window.IMAGE_FILES || []).map(String);
+const stripExt = s => s.replace(/(\.[a-z0-9]{2,5}){1,3}$/i, '');
+const alnum = s => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+const afterPrefix = (name, k) => { let i = 0, m = 0; while (i < name.length && m < k.length) { if (/[a-z0-9]/i.test(name[i])) m++; i++; } return name.slice(i); };
+const matched = new Set(), byProject = {};
+FILES.forEach(f => {
+  const parts = f.split('/'), name = stripExt(parts[parts.length - 1]), folder = parts.length > 2 ? parts[parts.length - 2] : '';
+  let best = null;
+  P.forEach(p => [p.id, p.title].forEach(key => {
+    const k = alnum(key); if (!k) return;
+    if (alnum(name).startsWith(k)) { if (!best || k.length > best.len) best = { p, len: k.length, rest: afterPrefix(name, k) }; }
+    else if (folder && alnum(folder) === k && (!best || k.length > best.len)) best = { p, len: k.length, rest: name };
+  }));
+  if (!best) return;
+  matched.add(f);
+  const b = byProject[best.p.id] = byProject[best.p.id] || { cover: null, plain: null, shots: [] };
+  const r = alnum(best.rest);
+  if (/cover|thumb|card|banner|hero/.test(r)) b.cover = b.cover || f;
+  else if (!r) b.plain = b.plain || f;
+  else {
+    const num = (r.match(/\d+/) || [])[0];
+    const cap = best.rest.replace(/[-_.\s]+/g, ' ').replace(/\b\d+\b/g, '').trim();
+    b.shots.push({ src: f, n: num ? +num : Infinity, key: r, caption: cap ? cap[0].toUpperCase() + cap.slice(1) : '' });
+  }
+});
+Object.values(byProject).forEach(b => b.shots.sort((a, c) => (a.n - c.n) || a.key.localeCompare(c.key, undefined, { numeric: true })));
+const profileFile = FILES.find(f => alnum(stripExt(f.split('/').pop())).startsWith('profile'));
+
+/* screenshots: config gallery, else matched files, else images/<id>-1, -2, -3 ... (a gap of up to two is tolerated) */
 const galleryCache = new Map();
 function getGallery(p) {
   if (!galleryCache.has(p.id)) galleryCache.set(p.id, (async () => {
     if (p.gallery && p.gallery.length) return p.gallery.map(g => typeof g === 'string' ? { src: g, caption: '' } : g);
+    const m = byProject[p.id];
+    if (m && m.shots.length) return m.shots.map((s, i) => ({ src: s.src, caption: (p.shots && p.shots[i]) || s.caption }));
     const out = []; let misses = 0;
     for (let n = 1; n <= 40 && misses < 3; n++) {
       const src = await findImage(`images/${p.id}-${n}`);
@@ -434,17 +508,33 @@ function getGallery(p) {
   })());
   return galleryCache.get(p.id);
 }
-/* card image: explicit cover, else <id>-cover, else the first screenshot, else a diagram */
+/* card image: config cover, else a matched cover file, else images/<id>-cover.*, else a diagram */
 const coverCache = new Map();
 function getCover(p) {
   if (!coverCache.has(p.id)) coverCache.set(p.id, (async () => {
     if (p.cover) return p.cover;
-    const c = await findImage(`images/${p.id}-cover`);
-    if (c) return c;
-    if (p.gallery && p.gallery.length) { const g = p.gallery[0]; return typeof g === 'string' ? g : g.src; }
-    return await findImage(`images/${p.id}-1`);
+    const m = byProject[p.id];
+    if (m && (m.cover || m.plain)) return m.cover || m.plain;
+    return await findImage(`images/${p.id}-cover`);
   })());
   return coverCache.get(p.id);
+}
+
+/* add ?debug to the address (index.html?debug) to see what was found */
+async function debugReport() {
+  const L = [];
+  L.push(FILES.length ? `images.js: ${FILES.length} image files listed` : 'images.js: not found or empty (run update-images.bat), so only the exact names below are tried');
+  for (const p of P) {
+    const c = await getCover(p), g = await getGallery(p);
+    L.push(`\n${p.id}\n  cover: ${c || 'NOT FOUND. Tried images/' + p.id + '-cover.(png|jpg|jpeg|webp|gif|avif)'}\n  screenshots: ${g.length}`);
+  }
+  const un = FILES.filter(f => !matched.has(f) && f !== profileFile);
+  if (un.length) L.push('\nImage files that match no project:\n  ' + un.join('\n  '));
+  const box = document.createElement('div');
+  box.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;max-height:60vh;overflow:auto;z-index:99;background:#111;color:#e8f0f0;padding:14px 16px;border-radius:6px;font:13px/1.45 ui-monospace,Consolas,monospace;white-space:pre-wrap';
+  box.textContent = 'IMAGE CHECK (click to close)\n' + L.join('\n');
+  box.onclick = () => box.remove();
+  document.body.appendChild(box);
 }
 
 const layer = t => /bronze/i.test(t) ? 'bronze' : /silver/i.test(t) ? 'silver' : /gold/i.test(t) ? 'gold' : '';
@@ -458,7 +548,7 @@ function renderStatic() {
   $('#headline').textContent = C.headline;
   $('#lead').textContent = C.lead;
   $('#portraitFrame').innerHTML = `<div class="mono" aria-hidden="true">${esc(initials)}</div>`;
-  findImage('images/profile').then(src => { if (src) $('#portraitFrame').innerHTML = `<img src="${esc(src)}" alt="Portrait of ${esc(C.name)}">`; });
+  (profileFile ? Promise.resolve(profileFile) : findImage('images/profile')).then(src => { if (src) $('#portraitFrame').innerHTML = `<img src="${esc(src)}" alt="Portrait of ${esc(C.name)}">`; });
   $('#portraitCap').textContent = C.location ? `${C.name}, ${C.location}` : C.name;
   $('#resumeBtn').href = C.resume; $('#resumeBtn').setAttribute('download','');
   $('#aboutCopy').innerHTML = C.about.map(p => `<p>${esc(p)}</p>`).join('');
@@ -475,7 +565,7 @@ function renderStatic() {
   if (C.linkedin) links.push(`<li>LinkedIn: <a href="${esc(C.linkedin)}" target="_blank" rel="noopener">${esc(C.linkedin.replace(/^https?:\/\/(www\.)?/,''))}</a></li>`);
   if (C.github) links.push(`<li>GitHub: <a href="${esc(C.github)}" target="_blank" rel="noopener">${esc(C.github.replace(/^https?:\/\//,''))}</a></li>`);
   $('#contactList').innerHTML = links.join('');
-  $('#footer').textContent = `© ${new Date().getFullYear()} ${C.name}` + (C.showBuildInfo === false ? '' : ` · site build 5, config.js loaded`);
+  $('#footer').textContent = `© ${new Date().getFullYear()} ${C.name}` + (C.showBuildInfo === false ? '' : ` · site build 7, config.js loaded`);
 }
 
 /* ---- skills ---- */
@@ -615,91 +705,178 @@ function route() {
 }
 window.addEventListener('hashchange', route);
 
-/* ---- hero: a Bronze / Silver / Gold pipeline on sample meter data ---- */
-function initPipe() {
-  const row = $('#pipeRow'), panel = $('#pipePanel');
-  const N = t => ({ t, c: 'note' }), B = t => ({ t, c: 'bad' }), F = t => ({ t, c: 'fix' });
-  const S = {
-    bronze: { label: 'Bronze', sub: 'raw', title: 'Bronze: raw, exactly as received',
-      why: 'Files land untouched and append-only, so any run can be replayed. The problems are visible here and none has been fixed yet.',
-      tables: [{ cap: 'bronze.meter_readings', cols: ['plant_id','ts','mw','issue'], rows: [
-        ['PL-01','2026-09-19 10:00','48.2',N('')],
-        [B('PL-01'),B('2026-09-19 10:00'),B('48.2'),N('duplicate row')],
-        ['PL-01','2026-09-19 10:15','49.0',N('')],
-        ['PL-02','2026-09-19 10:15',B('"51,4"'),N('text, not a number')],
-        ['PL-02','2026-09-19 10:30',B('null'),N('missing value')],
-        ['PL-03',B('19/09/2026 10:00'),'37.9',N('different date format')],
-        ['PL-03','2026-09-19 10:15',B('-999'),N('sentinel value')] ] }],
-      tally: '7 rows in. Nothing changed, nothing dropped.' },
-    silver: { label: 'Silver', sub: 'clean', title: 'Silver: typed, de-duplicated, validated',
-      why: 'Types are enforced, duplicates removed, and bad rows go to a quarantine table with a reason, so nothing disappears silently.',
-      tables: [
-        { cap: 'silver.meter_readings (valid rows)', cols: ['plant_id','ts','mw','change'], rows: [
-          ['PL-01','2026-09-19 10:00','48.2',N('')],
-          ['PL-01','2026-09-19 10:15','49.0',N('')],
-          ['PL-02','2026-09-19 10:15',F('51.4'),N('comma read as decimal')],
-          ['PL-03',F('2026-09-19 10:00'),'37.9',N('date standardised')] ] },
-        { cap: 'quarantine.meter_readings (rejected rows)', cols: ['plant_id','ts','mw','reason'], rows: [
-          ['PL-02','2026-09-19 10:30','null',N('missing value')],
-          ['PL-03','2026-09-19 10:15','-999',N('sentinel value, not a reading')] ] } ],
-      tally: '7 rows in: 4 valid, 2 quarantined for review, 1 duplicate removed.' },
-    gold: { label: 'Gold', sub: 'business-ready', title: 'Gold: aggregated for the business question',
-      why: 'Shaped to the grain people ask about, with one agreed definition of each number, ready for Power BI.',
-      tables: [{ cap: 'gold.plant_hourly_output', cols: ['plant_id','hour','avg_mw','blocks'], rows: [
-        ['PL-01','2026-09-19 10:00','48.6','2'],
-        ['PL-02','2026-09-19 10:00','51.4','1'],
-        ['PL-03','2026-09-19 10:00','37.9','1'] ] }],
-      tally: '4 valid rows become 3 plant-hour rows that reports can read directly.' }
+/* ---- hero: renewable energy data and AI platform explorer ---- */
+function initPlatform() {
+  const KC = { src: '#F2B233', bronze: '#C98A4B', silver: '#9FB0BA', gold: '#E8B62C', ai: '#5CC8D0', out: '#3DDC97' };
+  const N = {
+    solar:  { x: 8,   y: 44,  w: 170, h: 46, t: 'Solar plants',       s: 'SCADA, 15-minute blocks',  k: 'src' },
+    wind:   { x: 8,   y: 104, w: 170, h: 46, t: 'Wind farms',         s: 'SCADA, turbine tags',      k: 'src' },
+    mkt:    { x: 8,   y: 164, w: 170, h: 46, t: 'Market and weather', s: 'prices, irradiance, wind', k: 'src' },
+    reg:    { x: 8,   y: 224, w: 170, h: 46, t: 'Regulatory',         s: 'orders, tariffs, rules',   k: 'src' },
+    ingest: { x: 244, y: 134, w: 140, h: 56, t: 'Ingestion',          s: 'pipelines and streams',    k: 'src' },
+    bronze: { x: 452, y: 52,  w: 128, h: 46, t: 'Bronze',             s: 'raw, append-only',         k: 'bronze' },
+    silver: { x: 452, y: 140, w: 128, h: 46, t: 'Silver',             s: 'clean, validated',         k: 'silver' },
+    gold:   { x: 452, y: 228, w: 128, h: 46, t: 'Gold',               s: 'business-ready',           k: 'gold' },
+    fc:     { x: 652, y: 44,  w: 176, h: 46, t: 'Forecast model',     s: 'generation, 15-minute',    k: 'ai' },
+    an:     { x: 652, y: 104, w: 176, h: 46, t: 'Anomaly detection',  s: 'plant performance',        k: 'ai' },
+    rules:  { x: 652, y: 164, w: 176, h: 46, t: 'Rules and reports',  s: 'open access, captive',     k: 'ai' },
+    ag:     { x: 652, y: 224, w: 176, h: 46, t: 'GenAI agent',        s: 'grounded in Gold',         k: 'ai' },
+    sched:  { x: 892, y: 44,  w: 164, h: 46, t: 'Scheduling',          s: 'day-ahead, deviation',    k: 'out' },
+    dash:   { x: 892, y: 104, w: 164, h: 46, t: 'Power BI',           s: 'operations, finance',      k: 'out' },
+    file:   { x: 892, y: 164, w: 164, h: 46, t: 'Regulatory filings', s: 'state regulator',          k: 'out' },
+    chat:   { x: 892, y: 224, w: 164, h: 46, t: 'Answers',             s: 'plain language',           k: 'out' }
   };
-  const order = ['bronze', 'silver', 'gold'];
-  const cell = v => typeof v === 'string' ? `<td>${esc(v)}</td>` : `<td class="${v.c}">${esc(v.t)}</td>`;
-  const table = t => `<div class="tbl-wrap"><table class="dt"><caption>${esc(t.cap)}</caption><thead><tr>${t.cols.map(c => `<th scope="col">${esc(c)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r => `<tr>${r.map(cell).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const COLS = [[8, 'Sources'], [244, 'Ingest'], [452, 'Lakehouse'], [652, 'Intelligence'], [892, 'Decisions']];
+  const CORE = ['ingest>bronze', 'bronze>silver', 'silver>gold'];
+  const rand = (() => { let s = 7; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
 
-  row.innerHTML = `<div class="pnode static">Source<small>meter files</small></div><span class="plink edge"></span>` +
-    order.map((k, i) => `<button type="button" class="pnode ${k}" data-k="${k}" aria-pressed="false">${S[k].label}<small>${S[k].sub}</small></button>${i < 2 ? '<span class="plink"></span>' : ''}`).join('') +
-    `<span class="plink edge"></span><div class="pnode static">Power BI<small>reports</small></div>`;
-
-  let cur = 'bronze', timer = null;
-  function show(k) {
-    cur = k;
-    row.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === k)));
-    panel.innerHTML = `<h3>${esc(S[k].title)}</h3><p class="why">${esc(S[k].why)}</p>${S[k].tables.map(table).join('')}<p class="tally">${esc(S[k].tally)}</p>`;
+  /* ---- scenario visuals ---- */
+  let fcData = null;
+  function vizForecast() {
+    const W = 460, H = 196, L = 34, R = 8, T = 10, B = 26, i0 = 24, i1 = 74, CAP = 100;
+    const idx = []; for (let i = i0; i <= i1; i++) idx.push(i);
+    const sched = [], act = [], fc = [];
+    idx.forEach(i => {
+      const h = (i + .5) / 4, s = h > 6 && h < 18 ? Math.pow(Math.sin(Math.PI * (h - 6) / 12), 1.25) : 0;
+      const cloud = 1 - .40 * Math.exp(-Math.pow((i - 54) / 4, 2)) - .24 * Math.exp(-Math.pow((i - 64) / 2.5, 2));
+      sched.push(s * 92);
+      act.push(Math.max(0, s * 95 * cloud * (1 + (rand() - .5) * .05)));
+      fc.push(Math.max(0, s * 93 * (1 - .8 * (1 - cloud)) * (1 + (rand() - .5) * .03)));
+    });
+    const mae = a => a.reduce((t, v, k) => t + Math.abs(v - act[k]), 0) / a.length;
+    const eS = mae(sched), eF = mae(fc), drop = Math.round((1 - eF / eS) * 100);
+    fcData = { sched, act, fc, i0 };
+    const x = k => L + k / (idx.length - 1) * (W - L - R), y = v => T + (H - T - B) * (1 - v / CAP);
+    const line = a => a.map((v, k) => `${k ? 'L' : 'M'}${x(k).toFixed(1)},${y(v).toFixed(1)}`).join('');
+    let g = '';
+    [0, 50, 100].forEach(v => g += `<line class="gl" x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${L-6}" y="${y(v)+3}" text-anchor="end">${v}</text>`);
+    [6, 9, 12, 15, 18].forEach(hh => { const k = (hh * 4 - i0) / (i1 - i0) * (idx.length - 1); g += `<text class="ax" x="${x(k)}" y="${H-8}" text-anchor="middle">${String(hh).padStart(2,'0')}:00</text>`; });
+    return `<div class="viz-h">One day at a solar plant, MW</div>
+      <div class="kpis"><div><b>${eS.toFixed(1)} MW</b><span>Schedule error</span></div><div class="good"><b>${eF.toFixed(1)} MW</b><span>Forecast error</span></div><div><b>${drop}% lower</b><span>average, daylight blocks</span></div></div>
+      <svg class="chart" viewBox="0 0 ${W} ${H}" data-i0="${i0}" data-l="${L}" data-r="${R}" data-w="${W}" role="img" aria-label="Actual generation against the day-ahead schedule and the AI forecast. The forecast follows the afternoon cloud dip that the schedule misses.">
+        ${g}
+        <path d="${line(act)}L${x(idx.length-1)},${y(0)}L${x(0)},${y(0)}Z" fill="#F2B233" fill-opacity=".16"/>
+        <path d="${line(sched)}" fill="none" stroke="#8FA7B0" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <path class="draw" pathLength="1" d="${line(fc)}" fill="none" stroke="#5CC8D0" stroke-width="2.4" stroke-linejoin="round"/>
+        <path class="draw" pathLength="1" d="${line(act)}" fill="none" stroke="#F2B233" stroke-width="2" stroke-linejoin="round"/>
+        <line class="cur" y1="${T}" y2="${H-B}" stroke="#E6EEF0" stroke-opacity=".5" visibility="hidden"/>
+      </svg>
+      <div class="lg"><span><i style="border-color:#F2B233"></i>Actual</span><span><i style="border-color:#5CC8D0"></i>AI forecast</span><span><i style="border-color:#8FA7B0;border-top-style:dashed"></i>Day-ahead schedule</span></div>
+      <div class="rd">Move across the chart to read a block.</div>`;
   }
-  /* reserve the height of the tallest layer so the page does not jump while it cycles */
-  let tallest = 0;
-  order.forEach(k => { show(k); tallest = Math.max(tallest, panel.offsetHeight); });
-  panel.style.minHeight = tallest + 'px';
-  show('bronze');
+  function afterForecast(box) {
+    const svg = $('svg.chart', box), rd = $('.rd', box), cur = $('.cur', svg); if (!svg) return;
+    const d = fcData, W = +svg.dataset.w, L = +svg.dataset.l, R = +svg.dataset.r, n = d.act.length;
+    const hh = i => `${String(Math.floor(i / 4)).padStart(2, '0')}:${String((i % 4) * 15).padStart(2, '0')}`;
+    const at = e => { const r = svg.getBoundingClientRect(); return Math.max(0, Math.min(n - 1, Math.round(((e.clientX - r.left) / r.width * W - L) / (W - L - R) * (n - 1)))); };
+    const show = k => {
+      const xx = L + k / (n - 1) * (W - L - R);
+      cur.setAttribute('x1', xx); cur.setAttribute('x2', xx); cur.setAttribute('visibility', 'visible');
+      rd.textContent = `${hh(d.i0 + k)}: actual ${d.act[k].toFixed(0)} MW, forecast ${d.fc[k].toFixed(0)} MW, schedule ${d.sched[k].toFixed(0)} MW`;
+    };
+    svg.addEventListener('pointermove', e => show(at(e)));
+  }
+  const vizPerf = () => {
+    const perf = [['PL-01', 98], ['PL-02', 96], ['PL-03', 84, 1], ['PL-04', 99], ['PL-05', 95], ['PL-06', 97]];
+    return `<div class="viz-h">Output against expected for the irradiance measured</div>
+      <ul class="bars">${perf.map(([n, v, f]) => `<li class="${f ? 'flag' : ''}"><span>${n}</span><span class="bt"><i style="--w:${v}%"></i></span><span class="bv">${v}%</span></li>`).join('')}</ul>
+      <p class="callout"><b>PL-03</b> has run about 16% below expected output since 11:30, while the plants around it track expectation. Flagged for inspection.</p>`;
+  };
+  const vizComp = () => {
+    const rows = [['Captive consumption test', 'Pass', 'ok'], ['Consumption in proportion to ownership', 'Within tolerance', 'ok'],
+      ['Day-ahead schedule submitted', 'On time', 'ok'], ['Deviation charges reconciled', '1 item to review', 'warn'], ['Monthly filing for the state regulator', 'Draft ready', 'ok']];
+    return `<div class="viz-h">Checks run on Gold before a filing goes out</div>
+      <ul class="checks">${rows.map(([t, s, c]) => `<li><span class="ck ${c}" aria-hidden="true"></span><span class="ct">${t}</span><span class="pill2 ${c}">${s}</span></li>`).join('')}</ul>`;
+  };
+  const vizChat = () => `<div class="viz-h">A question answered from trusted tables</div>
+    <div class="chat">
+      <div class="msg q">Which plant lost the most energy to curtailment this week?</div>
+      <div class="msg a">PL-03 lost the most: 41.2 MWh across three days, mostly on Tuesday afternoon.
+<pre>SELECT plant_id, SUM(curtailed_mwh) AS mwh
+FROM gold.plant_daily_output
+WHERE report_date &gt;= '2026-09-13'
+GROUP BY plant_id ORDER BY mwh DESC LIMIT 1;</pre>
+        <span class="src">Source: gold.plant_daily_output</span></div>
+    </div>`;
 
-  const stop = () => { clearInterval(timer); timer = null; panel.setAttribute('aria-live', 'polite'); };
-  row.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { stop(); show(b.dataset.k); } });
-  $('#pipe').addEventListener('mouseenter', () => { clearInterval(timer); timer = null; });
-  $('#pipe').addEventListener('focusin', stop);
+  const SC = [
+    { tab: 'Forecast and schedule', title: 'Forecast generation, then schedule against it',
+      edges: ['solar>ingest', 'wind>ingest', 'mkt>ingest', ...CORE, 'gold>fc', 'fc>sched'], viz: vizForecast, after: afterForecast,
+      steps: ['Plant readings arrive every 15 minutes, alongside weather and market data.', 'Pipelines land them in Bronze, clean and validate them in Silver, and model plant and time block in Gold.',
+        'A forecasting model learns from Gold history and weather, and writes its forecast back to Gold.', 'Scheduling reads the forecast, so the day-ahead schedule follows real output more closely.'] },
+    { tab: 'Plant performance', title: 'Find under-performing plants early',
+      edges: ['solar>ingest', 'wind>ingest', ...CORE, 'gold>an', 'an>dash'], viz: vizPerf,
+      steps: ['Output arrives with inverter and irradiance readings.', 'Silver validates the readings and aligns them to the same 15-minute block.',
+        'Gold keeps the expected output for the irradiance measured at each plant.', 'Anomaly detection flags plants below expectation, and the dashboard shows where to look first.'] },
+    { tab: 'Compliance', title: 'Keep open-access and captive filings audit-ready',
+      edges: ['solar>ingest', 'mkt>ingest', 'reg>ingest', ...CORE, 'gold>rules', 'rules>file'], viz: vizComp,
+      steps: ['Generation, consumption and market data land with regulatory inputs such as orders and tariffs.', 'History is kept as slowly changing dimensions, so any figure can be shown as it stood on a given date.',
+        'Rules check the captive and open-access conditions against Gold.', 'Draft filings for the state regulator are produced from Gold, with the checks attached.'] },
+    { tab: 'Ask the data', title: 'Ask in plain language, answered from Gold',
+      edges: ['gold>ag', 'ag>chat'], viz: vizChat,
+      steps: ['Only trusted Gold tables, with their definitions, are exposed to the agent.', 'The agent writes a query, runs it, and names the table it used.',
+        'The answer comes back with the SQL, so anyone can check it.'] }
+  ];
+  const EDGES = [...new Set(SC.flatMap(s => s.edges))];
+
+  /* ---- static diagram ---- */
+  const path = e => {
+    const [a, b] = e.split('>').map(k => N[k]);
+    if (a.x === b.x) return `M${a.x + a.w / 2},${a.y + a.h} L${b.x + b.w / 2},${b.y}`;
+    const x1 = a.x + a.w, y1 = a.y + a.h / 2, x2 = b.x, y2 = b.y + b.h / 2, dx = (x2 - x1) * .5;
+    return `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`;
+  };
+  $('#platArch').innerHTML = `<svg viewBox="0 0 1064 292" role="img" aria-label="Architecture: sources, ingestion, a Bronze, Silver and Gold lakehouse, an intelligence layer, and decisions.">
+    ${COLS.map(([x, t]) => `<text class="col" x="${x}" y="18">${t}</text>`).join('')}
+    <g>${EDGES.map(e => `<path class="edge" data-e="${e}" d="${path(e)}"/>`).join('')}</g>
+    <g id="packets"></g>
+    <g>${Object.entries(N).map(([id, n]) => `<g class="node" data-n="${id}"><rect class="box" x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="8"/>
+      <rect x="${n.x + 7}" y="${n.y + 9}" width="3.5" height="${n.h - 18}" rx="1.75" fill="${KC[n.k]}"/>
+      <text class="t" x="${n.x + 19}" y="${n.y + n.h / 2 - 3}">${esc(n.t)}</text><text class="s" x="${n.x + 19}" y="${n.y + n.h / 2 + 13}">${esc(n.s)}</text></g>`).join('')}</g>
+  </svg>`;
   const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce) timer = setInterval(() => show(order[(order.indexOf(cur) + 1) % order.length]), 5500);
+  const tabs = $('#platTabs'), body = $('#platBody'), arch = $('#platArch');
+  tabs.innerHTML = SC.map((s, i) => `<button type="button" class="tab" data-i="${i}" aria-pressed="false">${esc(s.tab)}</button>`).join('');
+
+  let cur = 0, timer = null;
+  function show(i) {
+    cur = i; const S = SC[i], on = new Set(S.edges), nodesOn = new Set(S.edges.flatMap(e => e.split('>')));
+    tabs.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.i === i)));
+    arch.querySelectorAll('.edge').forEach(p => p.classList.toggle('on', on.has(p.dataset.e)));
+    arch.querySelectorAll('.node').forEach(g => { const a = nodesOn.has(g.dataset.n); g.classList.toggle('on', a); g.classList.toggle('dim', !a); });
+    $('#packets', arch).innerHTML = reduce ? '' : S.edges.map((e, k) =>
+      `<circle r="3.4" fill="#F2B233"><animateMotion dur="${e.startsWith('silver') || e.startsWith('bronze') ? 1.4 : 2.2}s" begin="${((k * .37) % 1.6).toFixed(2)}s" repeatCount="indefinite" path="${path(e)}"/></circle>`).join('');
+    body.innerHTML = `<div class="steps"><h3>${esc(S.title)}</h3><ol>${S.steps.map(t => `<li>${esc(t)}</li>`).join('')}</ol></div><div class="viz">${S.viz()}</div>`;
+    if (S.after) S.after($('.viz', body));
+  }
+  /* reserve the height of the tallest scenario so the card does not jump while it cycles */
+  function measure() {
+    body.style.minHeight = '';
+    let tall = 0; SC.forEach((s, i) => { show(i); tall = Math.max(tall, body.offsetHeight); });
+    body.style.minHeight = tall + 'px'; show(cur);
+  }
+  measure();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(measure, 200); });
+
+  const stop = () => { clearInterval(timer); timer = null; };
+  tabs.addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) { stop(); show(+b.dataset.i); } });
+  $('#plat').addEventListener('mouseenter', stop);
+  $('#plat').addEventListener('focusin', stop);
+  if (!reduce) timer = setInterval(() => show((cur + 1) % SC.length), 9000);
 }
 
-/* ---- skills broadcast (two scrolling lanes) ---- */
+/* ---- skills broadcast: one scrolling line ---- */
 function renderTicker() {
-  const T = (C.ticker && C.ticker.lanes) ? C.ticker : { title: 'Data and AI skills',
-    lanes: [{ label: 'Skills', items: C.skills.filter(g => !/energy/i.test(g.group)).flatMap(g => g.items) }] };
-  const lanes = T.lanes.filter(l => l.items && l.items.length);
+  const T = C.ticker || {};
+  const items = T.items || (T.lanes ? T.lanes.flatMap(l => l.items || []) : C.skills.filter(g => !/energy/i.test(g.group)).flatMap(g => g.items));
   const box = $('#ticker');
-  if (!lanes.length) { box.hidden = true; return; }
+  if (!items.length) { box.hidden = true; return; }
   box.hidden = false;
-  $('#tickTitle').textContent = T.title || 'Data and AI skills';
-  $('#tickLanes').innerHTML = lanes.map((l, i) => {
-    const reps = Math.max(1, Math.ceil(18 / l.items.length));
-    const half = Array(reps).fill(l.items).flat().map(s => `<span class="tk">${esc(s)}</span>`).join('');
-    const dur = Math.max(30, reps * l.items.length * 2.6);
-    return `<div class="lane${i % 2 ? ' ai rev' : ''}"><span class="lane-label">${esc(l.label || '')}</span>
-      <div class="lane-view"><div class="track" style="--dur:${dur}s"><div class="half">${half}</div><div class="half dup" aria-hidden="true">${half}</div></div></div></div>`;
-  }).join('');
-  const btn = $('#tickPause');
-  btn.addEventListener('click', () => {
-    const on = box.classList.toggle('paused');
-    btn.textContent = on ? 'Play' : 'Pause'; btn.setAttribute('aria-pressed', String(on));
-  });
+  const reps = Math.max(1, Math.ceil(24 / items.length));
+  const half = Array(reps).fill(items).flat().map(s => `<span class="tk">${esc(s)}</span>`).join('');
+  $('#tickTrack').style.setProperty('--dur', Math.max(40, reps * items.length * 2.4) + 's');
+  $('#tickTrack').innerHTML = `<div class="half">${half}</div><div class="half dup" aria-hidden="true">${half}</div>`;
 }
 
 /* ---- light / dark theme ---- */
@@ -720,71 +897,8 @@ function initTheme() {
   });
 }
 
-/* ---- background: dot grid with data packets running along pipeline traces ---- */
-function initBg() {
-  const cv = $('#bg'); if (!cv || !cv.getContext) return;
-  const ctx = cv.getContext('2d'); if (!ctx) return;
-  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const G = 34, col = {};
-  let W = 0, H = 0, traces = [], packets = [], last = 0;
-  const readColors = () => { const s = getComputedStyle(document.documentElement); ['dot','line','pk1','pk2'].forEach(k => col[k] = s.getPropertyValue('--bg-' + k).trim()); };
-  let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647, ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
-  function build() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = window.innerWidth; H = window.innerHeight;
-    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    seed = 11; traces = []; packets = [];
-    const cols = Math.floor(W / G), rows = Math.floor(H / G);
-    const count = Math.max(6, Math.min(16, Math.round(W * H / 90000)));
-    for (let i = 0; i < count; i++) {
-      let x = ri(0, cols), y = ri(1, Math.max(2, rows - 1)), horiz = true;
-      const pts = [[x, y]];
-      for (let s = ri(4, 7); s > 0; s--) {
-        if (horiz) x = Math.max(0, Math.min(cols, x + ri(3, 10) * (rnd() < .85 ? 1 : -1)));
-        else y = Math.max(0, Math.min(rows, y + ri(2, 6) * (rnd() < .5 ? 1 : -1)));
-        pts.push([x, y]); horiz = !horiz;
-      }
-      const P = pts.map(([a, b]) => [a * G + G / 2, b * G + G / 2]);
-      const cum = [0]; let len = 0;
-      for (let k = 1; k < P.length; k++) { len += Math.abs(P[k][0] - P[k-1][0]) + Math.abs(P[k][1] - P[k-1][1]); cum.push(len); }
-      if (len >= G * 4) traces.push({ P, cum, len });
-    }
-    traces.forEach((t, i) => { for (let k = 0; k < (t.len > 600 ? 2 : 1); k++) packets.push({ t, d: rnd() * t.len, v: 22 + rnd() * 26, c: (i + k) % 3 === 0 ? 'pk2' : 'pk1' }); });
-  }
-  function at(t, d) {
-    let k = 1; while (k < t.cum.length - 1 && t.cum[k] < d) k++;
-    const f = (d - t.cum[k-1]) / ((t.cum[k] - t.cum[k-1]) || 1);
-    return [t.P[k-1][0] + (t.P[k][0] - t.P[k-1][0]) * f, t.P[k-1][1] + (t.P[k][1] - t.P[k-1][1]) * f];
-  }
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = col.dot;
-    for (let x = G / 2; x < W; x += G) for (let y = G / 2; y < H; y += G) ctx.fillRect(x - .75, y - .75, 1.5, 1.5);
-    ctx.strokeStyle = col.line; ctx.fillStyle = col.line; ctx.lineWidth = 1.5; ctx.lineJoin = 'round';
-    traces.forEach(t => {
-      ctx.beginPath(); t.P.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke();
-      t.P.forEach(p => { ctx.beginPath(); ctx.arc(p[0], p[1], 3, 0, 6.283); ctx.fill(); });
-    });
-    ctx.lineWidth = 2.5; ctx.lineCap = 'round';
-    packets.forEach(pk => {
-      const a = at(pk.t, pk.d), b = at(pk.t, Math.max(0, pk.d - 18));
-      ctx.strokeStyle = col[pk.c]; ctx.beginPath(); ctx.moveTo(b[0], b[1]); ctx.lineTo(a[0], a[1]); ctx.stroke();
-    });
-  }
-  function frame(ts) {
-    const dt = Math.min(.05, (ts - last) / 1000 || 0); last = ts;
-    packets.forEach(pk => { pk.d += pk.v * dt; if (pk.d > pk.t.len) pk.d = 0; });
-    draw(); requestAnimationFrame(frame);
-  }
-  readColors(); build(); draw();
-  if (!reduce) requestAnimationFrame(frame);
-  let tm; window.addEventListener('resize', () => { clearTimeout(tm); tm = setTimeout(() => {
-    if (Math.abs(window.innerWidth - W) < 1 && Math.abs(window.innerHeight - H) < 150) return;
-    build(); draw(); }, 200); });
-  window.addEventListener('themechange', () => { readColors(); draw(); });
-}
-
-renderStatic(); renderSkills(); renderProjects(); initPipe(); renderTicker(); initTheme(); initBg(); route();
+renderStatic(); renderSkills(); renderProjects(); initPlatform(); renderTicker(); initTheme(); route();
+if (/[?&]debug\b/.test(location.search)) debugReport();
 </script>
 </body>
 </html>

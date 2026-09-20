@@ -5,16 +5,22 @@
 
    FILES NEXT TO index.html
      resume.pdf                        your resume
-     images/profile.png                your portrait (png, jpg, jpeg or webp)
-     images/<id>-cover.png             card image for a project (optional; if
-                                       missing, the first screenshot is used)
-     images/<id>-1.png, -2.png, -3.png ...
-                                       solution-walkthrough screenshots, ANY
-                                       number, numbered from 1 with no need to
-                                       list them here
-   <id> is the project's "id" below, e.g. global-listing-intelligence-1.png
-   Missing images are fine: cards show a pipeline diagram, the portrait
-   shows your initial, and projects without screenshots hide that section.
+     images/profile.png                your portrait
+     images/<id>-cover.png             card image for a project
+     images/<id>-1.png, -2.png, ...    solution-walkthrough screenshots (any number)
+   <id> is the project's "id" below, e.g. global-listing-intelligence-cover.png
+   Missing images are fine: cards show a pipeline diagram, the portrait shows
+   your initial, and projects without screenshots hide that section.
+
+   IF AN IMAGE DOES NOT APPEAR
+     1. Open the site with ?debug at the end (index.html?debug) to see what
+        was found and which image files matched no project.
+     2. Double-click update-images.bat (next to index.html). It writes
+        images.js, a list of the files in /images. The site then matches file
+        names loosely: any case, spaces or underscores instead of hyphens, the
+        project id or its full title, a doubled extension (.png.png) and any
+        extension. Run it again whenever you add or rename images.
+     3. Or name a file explicitly inside the project:  cover: "images/x.png",
 
    OPTIONAL CAPTIONS: in a project, shots: ["Pipeline canvas", "Audit table"]
    captions images 1 and 2. Images without a caption show just "Step n".
@@ -81,14 +87,9 @@ const CONFIG = {
       "Renewable","Open Access and C&I","Regulatory compliance","Asset management","Energy analytics","Power trading","Forecasting"] }
   ],
 
-  // Scrolling "broadcast" of skills under the hero. Two lanes; the second scrolls the other way.
-  // Edit, add or remove items freely. Delete a whole lane to show just one.
+  // The single scrolling line of skills under the hero. Edit, add or remove items freely.
   ticker: {
-    title: "Data and AI skills",
-    lanes: [
-      { label: "Data", items: ["Microsoft Fabric","Lakehouse","Delta Lake","PySpark","Data pipelines","Medallion architecture","Incremental loading","SCD Type 2","T-SQL","Fabric Warehouse","Real-Time Intelligence","Power BI","Azure SQL","Upserts (MERGE)"] },
-      { label: "AI",   items: ["Generative AI","Agentic AI","Databricks","Cloud platforms","Forecasting","Energy analytics"] }
-    ]
+    items: ["Microsoft Fabric","Lakehouse","Delta Lake","PySpark","Data pipelines","Medallion architecture","Generative AI","Agentic AI","Databricks","Incremental loading","SCD Type 2","T-SQL","Fabric Warehouse","Real-Time Intelligence","Power BI","Cloud platforms","Forecasting","Energy analytics"]
   },
 
   projectsNote: "Each case study covers the problem, what I built and the design decisions. Datasets are simulated or anonymised; no employer data is shown.",
