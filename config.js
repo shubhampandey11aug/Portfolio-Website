@@ -63,8 +63,8 @@ const CONFIG = {
     "My focus: Learn → Build → Experiment → Solve → Transform."
   ],
   facts: [
-    ["Now", "Assistant Manager, Analytics (Energy & Market Operations), Gentari India"],
-    ["Before", "Deputy Manager, Energy Analytics & Trading, Kreate Energy"],
+    ["Now", "Analytics (Energy & Market Operations), Gentari India"],
+    ["Before", "Energy Analytics,Forecasting & Trading, Kreate Energy"],
     ["Training", "Electrical engineering"],
     ["Domain", "Solar project management, open access, C&I, regulatory compliance"],
     ["Based in", "Gurgaon"]
