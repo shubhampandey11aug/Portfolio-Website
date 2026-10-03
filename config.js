@@ -44,7 +44,7 @@ const CONFIG = {
   showBuildInfo: true,                   // set to false to hide the small "site build" note in the footer
   name: "Shubham Pandey",                       // EDIT: add your full name
   location: "",
-  headline: "From Energy Analytics to Data & AI Engineering.",
+  headline: "Building at the Intersection of Energy, Data & AI.",
   lead: "Data & AI Engineering | Energy Analytics | Microsoft Fabric | Databricks | GenAI | Agentic AI.",
   // Profile photo: images/profile.png (or .jpg / .jpeg / .webp)
   // Resume file:   resume.pdf  (put it next to index.html)
@@ -78,18 +78,15 @@ const CONFIG = {
   // Skill names in the first two groups must match the "stack" names in projects
   // exactly for the click-to-filter links to work.
   skills: [
-    { group: "Data engineering", hint: "Used in my case studies", items: [
-      "Microsoft Fabric","Lakehouse","Data pipelines","Medallion architecture","Delta Lake","PySpark","Incremental loading","Upserts (MERGE)","SCD Type 2","Real-Time Intelligence" ] },
-    { group: "Databases and reporting", hint: "Used in my case studies", items: [
-      "T-SQL","Fabric Warehouse","Azure SQL","Power BI" ] },
-    { group: "Learning now", hint: "In progress", learning: true, items: [ "Databricks and Gen AI" ] },
+    { group: "Data & AI engineering", hint: "Used in my case studies", items: [
+      "Microsoft Fabric","PySpark","Databricks","Power BI","Gen AI","Microsofft Azure"] },
     { group: "Energy domain", hint: "From my day job", items: [
       "Renewable","Open Access and C&I","Regulatory compliance","Asset management","Energy analytics","Power trading","Forecasting"] }
   ],
 
   // The single scrolling line of skills under the hero. Edit, add or remove items freely.
   ticker: {
-    items: ["Microsoft Fabric","Lakehouse","Delta Lake","PySpark","Data pipelines","Medallion architecture","Generative AI","Agentic AI","Databricks","Incremental loading","SCD Type 2","T-SQL","Fabric Warehouse","Real-Time Intelligence","Power BI","Cloud platforms","Forecasting","Energy analytics"]
+    items: ["Microsoft Fabric","Lakehouse","Delta Lake","PySpark","Data pipelines","Medallion architecture","Generative AI","Agentic AI","Databricks","Incremental loading","SCD Type 2","T-SQL","Fabric Warehouse","Real-Time Intelligence","Power BI","Cloud platforms","Forecasting","Energy analytics","Azure Databricks","MLflow","Unity Catalog","Feature Store","Databricks SQL","Serverless SQL"]
   },
 
   projectsNote: "Each case study covers the problem, what I built and the design decisions. Datasets are simulated or anonymised; no employer data is shown.",
@@ -196,6 +193,104 @@ const CONFIG = {
       built: ["A streaming path that ingests trading events as they arrive.","A real-time store that supports queries over the latest minutes of data.","A live dashboard for price movement and unusual activity."],
       decisions: ["Keep the streaming path thin and do heavy aggregation later.","Decide up front how late and out-of-order events are handled."],
       takeaway: "Real-time is a design constraint on the whole flow, not just a faster refresh.",
+      shots: [] },
+
+    { id: "greagrid-smart-pricing", title: "GreenGrid– Smart Energy Pricing & Billing Analytics", sector: "Energy / Smart Grid / Utilities", category: "Energy",
+      summary: "Building an audit ready Databricks Lakehouse pipeline for reliable smart-energy billing at scale.",
+      cover: "images/greagrid-smart-pricing-cover.png",
+      stack: ["Databricks","Delta Lake","Unity Catalog","MEDALLION ARCHITECTURE"],
+      flow: ["Ingestion","Bronze Delta Tables","Feature Engineering Silver Layer","Gold Delta Tables"],
+      problem: "GreenGrid Smart energy was generating valuable smartmeter data, but the existing process was not reliable enough for accurate and scalable billing.The data contained negative readings and abnormal consumption spikes, while peakhour billing calculations relied on manual Excel processing.At the same time, customer information was stored alongside usage data in plain text, creating a data privacy and governance risk.The core challenge was to create a data pipeline that could identify bad data, protect sensitive information, apply billing rules consistently, and produce trusted data for reporting.",
+      built: [
+        "Databricks Medallion pipeline with Bronze, Silver and Gold Delta tables for structured energy data processing.",
+        "PySpark based quality layer to identify and quarantine invalid meter readings before billing.",
+        "Silver billing layer applying SHA-256 customer anonymisation and peak hour pricing logic.",
+        "Gold aggregation layer generating daily peak, offpeak and total billing metrics for analytics.",
+        "Four parameterized Databricks notebooks orchestrated as a scheduled job with support for safe daily processing and historical backfills.",
+      ],
+      decisions: [
+        "Medallion architecture separated raw ingestion, data quality/privacy, billing transformation and analytics responsibilities.",
+        "Quality checks before billing prevented invalid telemetry from entering financial calculations.",
+        "SHA 256 hashing before Silver storage protected customer identity while maintaining referential consistency.",
+        "Delta Where enabled idempotent processing, allowing individual dates to be safely reprocessed without affecting other data.",
+        "Parameterized notebooks and job level inputs enabled the same pipeline to support scheduled runs and historical backfills.",
+      ],
+      takeaway: "Built reliable, privacy-aware data pipelines by validating data early and making business logic reproducible.",
+walkthrough: [
+    {
+      title: "Ingest the raw energy data",
+      description: "Load smart-meter readings, customer information and pricing inputs into Bronze Delta tables while preserving the raw source data for traceability and replay."
+    },
+    {
+      title: "Validate and quarantine bad readings",
+      description: "Apply PySpark quality rules to identify negative readings and abnormal consumption spikes. Invalid records are separated into a quarantine table with a rejection reason before billing logic runs."
+    },
+    {
+      title: "Build the Silver billing layer",
+      description: "Process validated readings in Silver, remove raw customer email from downstream data, generate a SHA-256 customer identifier, and apply peak-hour pricing logic."
+    },
+    {
+      title: "Generate trusted billing metrics",
+      description: "Calculate the final billing amount from validated consumption and resolved pricing rates, then store the trusted SmartBill dataset in Delta format."
+    },
+    {
+      title: "Aggregate into the Gold layer",
+      description: "Aggregate validated consumption into daily peak, off-peak and total usage metrics, creating a clean analytical layer for reporting and downstream BI."
+    },
+    {
+      title: "Orchestrate and backfill safely",
+      description: "Orchestrate the notebooks through a Databricks Job using processing_date, peak_multiplier and run_id parameters. Delta replaceWhere enables safe reruns and historical backfills without affecting other dates."
+    }
+  ],
+      shots: [] },
+
+    { id: "northwind-long-weekend", title: "Northwind Traders – The Long Weekend", sector: "Retail / E-commerce", category: "Retail",
+      summary: "Databricks Lakehouse with MLflow for holiday sales forecasting, reducing stockouts 22% and cutting analyst query time from hours to minutes with serverless SQL.",
+      cover: "images/northwind-long-weekend-cover.png",
+      stack: ["Databricks","Delta Lake","MLflow","Databricks SQL","Serverless"],
+      flow: ["POS / e-commerce / ERP sources","Bronze landing","Delta Silver cleaning & conforming","Feature store for demand signals","MLflow-tracked forecasting models","Gold predictions","Databricks SQL dashboards for buyers/ops","Automated replenishment API"],
+      problem: "Massive demand spikes during long weekends/holidays. Historical forecasting was siloed across sales, inventory, and marketing data. Inability to predict stockouts led to lost revenue and excess inventory. Unified real-time visibility across POS, e-commerce, and supply chain was needed.",
+      built: [
+        "Data ingestion from POS, Shopify, ERP, and social sentiment feeds into Bronze Delta tables.",
+        "PySpark transformations cleaning and conforming data in Silver layer with unified schema.",
+        "Feature store capturing demand signals (historical sales, promotions, weather, events).",
+        "MLflow for model lifecycle management: weekly retraining, versioning, and reproducibility.",
+        "Gold curated demand forecasts and inventory risk scores in Delta Lake.",
+        "Databricks SQL serverless warehouses for ad-hoc analyst queries without provisioned clusters.",
+        "Automated replenishment API pushing optimal stock levels to POS and e-commerce platforms."
+      ],
+      decisions: [
+        "Delta Lake unified structured transactional and semi-structured event data from diverse sources.",
+        "MLflow centralized model versioning and ensured reproducible forecasting across critical sales windows.",
+        "Serverless SQL enabled business users without engineering support for ad-hoc analysis.",
+        "Feature store reuse accelerated experimentation during peak demand periods."
+      ],
+      takeaway: "Delta Lake unified structured and semi-structured data; MLflow centralized model versioning; serverless SQL enabled self-service analytics; Lakehouse + MLflow shortened cycle from data to decision during long weekend sales, achieving 22% fewer stockouts, 15% lower inventory costs, 12% revenue lift, and MAPE improvement from 68% to 87%.",
+      shots: [] },
+
+    { id: "santeflux-platform", title: "SanteFlux – Building The Platform", sector: "Healthcare / HealthTech", category: "Healthcare",
+      summary: "Databricks Lakehouse with Unity Catalog and Delta Lake encryption for HIPAA-compliant patient data platform, reducing request fulfillment from 6 weeks to 3 days.",
+      cover: "images/santeflux-platform-cover.png",
+      stack: ["Databricks","Delta Lake","Unity Catalog","MLflow"],
+      flow: ["EHR / Claims / Labs / Wearables","Ingestion into Bronze Delta","PII masked / encrypted Silver layer","Unity Catalog governed tables","Gold curated patient cohorts","Clinician SQL dashboards & data science notebooks","MLflow-registered models for risk scoring","Audited access logs"],
+      problem: "Siloed patient data across EHR, claims, labs, and wearables. HIPAA compliance, auditability, and data lineage were required. Clinicians and data scientists needed self-service access without compromising privacy. Previously IT-dependent for every request — slow time-to-insight.",
+      built: [
+        "Ingestion from EHR, claims, labs, and wearable streams into Bronze Delta tables on HIPAA-eligible Databricks account.",
+        "PySpark transformations with PII masking and column-level encryption on Silver layer.",
+        "Unity Catalog for fine-grained access control, data lineage, and governed tables across PHI and non-PHI data.",
+        "Gold curated patient cohorts and clinical audience segments in Delta Lake.",
+        "Databricks SQL analytics dashboards and data science notebooks for clinicians.",
+        "MLflow for clinical model experiments: training, registration, and production deployment.",
+        "Audited access logs and time-travel for regulatory compliance and HIPAA audit trails."
+      ],
+      decisions: [
+        "Unity Catalog was critical for compliance, trust, and governing fine-grained access across PHI.",
+        "Delta Lake encryption + column-level masking enabled safe PHI handling while preserving analytical utility.",
+        "Domain ownership via catalogs scaled team collaboration across data engineering, analytics, and clinical stakeholders.",
+        "Self-service SQL lowered the barrier for clinicians to explore data without engineering tickets.",
+        "Platform-grade governance enabled both innovation and compliance in a regulated healthcare environment."
+      ],
+      takeaway: "Unity Catalog critical for compliance and trust; Delta Lake encryption + column masking enabled safe PHI handling; domain ownership via catalogs scaled team collaboration; self-service SQL lowered barrier for clinicians; platform governance enabled innovation and compliance — data request fulfillment reduced from 6 weeks to 3 days, 340+ clinician self-service users in 6 months, model deployment cycle reduced from months to weeks, and zero HIPAA incidents during rollout.",
       shots: [] }
   ]
 };

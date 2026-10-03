@@ -6,9 +6,9 @@
 <script>try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shubham · Data Engineer</title>
-<meta name="description" content="Data and AI engineer with a background in renewable energy operations. Microsoft Fabric case studies, skills and resume.">
+<meta name="description" content="Data and AI engineer with a background in renewable energy operations. Microsoft Fabric and Databricks case studies, skills and resume.">
 <meta property="og:title" content="Shubham · Data Engineer">
-<meta property="og:description" content="From energy analytics to data and AI engineering.">
+<meta property="og:description" content="From energy analytics to data and AI engineering. Microsoft Fabric, Databricks, Delta Lake, and Lakehouse architectures.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -244,6 +244,15 @@ ol.flow li.gold{border-color:var(--gold);background:var(--gold-bg)}
 .shots img{width:100%;height:auto}
 .shots figcaption{padding:10px 14px;font-size:.92rem;color:var(--slate);border-top:1px solid var(--mist)}
 .shots figcaption b{color:var(--ink)}
+.solution-steps{margin-top:44px;padding-top:36px;border-top:1px solid var(--mist)}
+.solution-steps h2{font-size:1.3rem;letter-spacing:-.01em;margin:0 0 4px}
+.solution-steps .gsub{color:var(--slate);font-size:.95rem;margin:0 0 20px}
+.solution-step-list{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.solution-step{display:grid;grid-template-columns:52px minmax(0,1fr);gap:18px;padding:22px 0;border-top:1px solid var(--mist)}
+.solution-step:first-child{border-top:0;padding-top:4px}
+.solution-step-num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);font:700 .78rem/1 var(--sans)}
+.solution-step h3{font:600 1.02rem/1.35 var(--sans);margin:0 0 5px;letter-spacing:-.01em}
+.solution-step p{font-family:var(--serif);font-size:1.08rem;line-height:1.6;color:var(--ink2);margin:0;max-width:42em}
 .pn{display:flex;justify-content:space-between;gap:16px;margin:48px 0 72px;padding-top:24px;border-top:1px solid var(--mist)}
 .pn a{max-width:46%;text-decoration:none;font-weight:600}
 .pn a small{display:block;color:var(--slate);font-weight:500}
@@ -622,7 +631,24 @@ document.addEventListener('click', e => {
 /* ---- case study page ---- */
 function renderCase(p) {
   const i = P.indexOf(p), prev = P[i-1], next = P[i+1];
-  const list = a => `<ul>${a.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  const list = a => `<ul>${(a || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  const walkthrough = p.walkthrough && p.walkthrough.length
+    ? `<section class="solution-steps">
+         <h2>Solution walkthrough</h2>
+         <p class="gsub">Step-by-step view of how the solution was designed and implemented.</p>
+         <ol class="solution-step-list">
+           ${p.walkthrough.map((step, n) => {
+             const title = typeof step === 'string' ? `Step ${n + 1}` : (step.title || `Step ${n + 1}`);
+             const description = typeof step === 'string' ? step : (step.description || '');
+             return `<li class="solution-step">
+                       <div class="solution-step-num">${String(n + 1).padStart(2, '0')}</div>
+                       <div><h3>${esc(title)}</h3><p>${esc(description)}</p></div>
+                     </li>`;
+           }).join('')}
+         </ol>
+       </section>`
+    : '';
+
   $('#caseRoot').innerHTML = `
     <a class="back" href="#projects">Back to all projects</a>
     <header class="case-head">
@@ -643,6 +669,7 @@ function renderCase(p) {
         <h2>What I took from it</h2><p>${esc(p.takeaway)}</p>
       </div>
     </div>
+    ${walkthrough}
     <section class="gallery" hidden><h2>Solution walkthrough</h2><p class="gsub">Step-by-step screenshots. Click an image to enlarge.</p><div class="shots"></div></section>
     <nav class="pn" aria-label="More case studies">
       ${prev ? `<a class="prev" href="#/p/${esc(prev.id)}"><small>Previous</small><span>${esc(prev.title)}</span></a>` : '<span></span>'}
